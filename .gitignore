@@ -1,0 +1,7 @@
+*.d
+*.o
+*.path
+*.ppm
+*.pyc
+*.statistics
+build/carve
