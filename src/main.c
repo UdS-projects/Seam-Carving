@@ -206,13 +206,19 @@ int main(int const argc, char** const argv)
             image_destroy(img);
             return EXIT_SUCCESS;
         }
+        else
+        {
+            for(int i=0; i<width; i++)
+            {
+                resize_picture(img, i);
+            }
+                image_write_to_file(img);
+                image_destroy(img);
+                return EXIT_SUCCESS;
+        }
     }
     
-    for(int i=0; i<width; i++)
-    {
-        resize_picture(img, i);
-    }
-    image_write_to_file(img);
+    
     image_destroy(img);
     return EXIT_SUCCESS;
 }

@@ -5,20 +5,20 @@
 #include "calculate.h"
 
 void image_destroy(image_t* img);
-void printArray3(int* array, int w, int h)
-{
-    for(int i=0; i<w*h; )
-    {
-        int j=0;
-        while(j<w)
-        {
-            printf("%i ", array[i]);
-            i++;
-            j++;
-        }
-        printf("\n");
-    }
-}
+// void printArray3(int* array, int w, int h)
+// {
+//     for(int i=0; i<w*h; )
+//     {
+//         int j=0;
+//         while(j<w)
+//         {
+//             printf("%i ", array[i]);
+//             i++;
+//             j++;
+//         }
+//         printf("\n");
+//     }
+// }
 
 image_t* image_init(FILE* f)
 {
@@ -28,6 +28,7 @@ image_t* image_init(FILE* f)
     {
         printf("Image header line 1 isn't formatted correctly (use \"P3\\n\")");
         free(header);
+        fclose(f);
         return NULL;
     }
     free(header);
@@ -36,10 +37,12 @@ image_t* image_init(FILE* f)
     int h = 0;
     if(fscanf(f, "%i %i", &w, &h) != 2)
     {
+        fclose(f);
         return NULL;
     }
     if(w <= 0 && h <= 0)
     {
+        fclose(f);
         return NULL;
     }
     
@@ -47,6 +50,7 @@ image_t* image_init(FILE* f)
     fscanf(f,"%i", &i255);
     if(255 != i255)
     {
+        fclose(f);
         return NULL;
     }
     
@@ -56,21 +60,23 @@ image_t* image_init(FILE* f)
     img->h = h;
     img->data = calloc(w*h*3, sizeof(int));
     
+    int check = 0;
     int currentPixel = 0;
     int pixelCount = 0;
     while(fscanf(f, "%i", &currentPixel) != EOF)
     {
         if(currentPixel < 0 || currentPixel > 255 || pixelCount >= w*h*3)
         {
-            image_destroy(img);
-            return NULL;
+            check = 1;
+            break;
         }
         img->data[pixelCount] = currentPixel;
         pixelCount++;
     }
     
-    if(pixelCount != w*h*3)
+    if(pixelCount != w*h*3 || check == 1)
     {
+        fclose(f);
         image_destroy(img);
         return NULL;
     }
