@@ -54,7 +54,7 @@ image_t* image_init(FILE* f)
     image_t *img = (image_t*) malloc(sizeof(image_t));
     img->w = w;
     img->h = h;
-    img->data = malloc(w*h*3*sizeof(int));
+    img->data = calloc(w*h*3, sizeof(int));
     
     int currentPixel = 0;
     int pixelCount = 0;
@@ -177,7 +177,7 @@ image_t* resize_picture(image_t* img, int cc)  //Completed Columns
                 indexBig++;
             }
         }
-        
+        image_destroy(smaller_img);
         return img;
     }
     else
