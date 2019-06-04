@@ -14,20 +14,20 @@ void printArray2(int* array, int height)
     }
 }
 
-void printArray(int* array, int w, int h)
-{
-    for(int i=0; i<w*h; )
-    {
-        int j=0;
-        while(j<w)
-        {
-            printf("%i ", array[i]);
-            i++;
-            j++;
-        }
-        printf("\n");
-    }
-}
+// void printArray(int* array, int w, int h)
+// {
+//     for(int i=0; i<w*h; )
+//     {
+//         int j=0;
+//         while(j<w)
+//         {
+//             printf("%i ", array[i]);
+//             i++;
+//             j++;
+//         }
+//         printf("\n");
+//     }
+// }
     
 
 int main(int const argc, char** const argv)
@@ -65,7 +65,7 @@ int main(int const argc, char** const argv)
     int width = img->w;
     int height = img->h;
     
-    int tFlag = 0;
+    //int tFlag = 0;
     int sFlag = 0;
     int pFlag = 0;
     int nFlag = 0;
@@ -73,13 +73,13 @@ int main(int const argc, char** const argv)
     int nCount = -1;
     int option;
     //getopt ist eine hurensohn scheiße.
-    while((option = getopt(argc, argv, "tspn:")) != -1)
+    while((option = getopt(argc, argv, "spn:")) != -1)
     {
         switch(option)
         {
-            case 't':
-                tFlag = 1;
-                break;
+//             case 't':
+//                 tFlag = 1;
+//                 break;
                 
             case 's':
                 sFlag = 1;
@@ -119,8 +119,8 @@ int main(int const argc, char** const argv)
         }
     }
     
-    if(tFlag == 1)
-    {
+//     if(tFlag == 1)
+//     {
 //         printArray(img->data, width*3, height);
 //         printf("\n");
 //         image_t *img2 = resize_picture(img, 1);
@@ -130,11 +130,27 @@ int main(int const argc, char** const argv)
 //         image_destroy(img);
 //         image_destroy(img2);
 //         return EXIT_SUCCESS;
-        
-        image_write_to_file(img);
-        image_destroy(img);
-        return EXIT_SUCCESS;
-    }
+//         
+//         image_write_to_file(img);
+//         image_destroy(img);
+//         return EXIT_SUCCESS;
+//         
+//         printf("Eingabe:\n");
+//         printArray(img->data, width*3, height);
+//         int* array = local_energy(img);
+//         image_destroy(img);
+//         printf("Local energy:\n");
+//         printArray(array, width, height);
+//         accumulated_energy(array, width, width*height);
+//         printf("Accumulated Energy:\n");
+//         printArray(array, width, height);
+//         int* xArray = optimal_path(array, width, height);
+//         free(array);
+//         printf("Optimal Path:\n");
+//         printArray(xArray, 1, height);
+//         free(xArray);
+//         return EXIT_SUCCESS;
+//     }
     
     if(sFlag == 1)
     {

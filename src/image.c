@@ -112,7 +112,7 @@ image_t* resize_picture(image_t* img, int cc)  //Completed Columns
             }
         }
         
-        printArray3(smaller_img->data, smaller_img->w*3, smaller_img->h);
+        //printArray3(smaller_img->data, smaller_img->w*3, smaller_img->h);
         
         //optimal path im kleineren bild bekommen
         int* array = local_energy(smaller_img);
@@ -186,8 +186,8 @@ image_t* resize_picture(image_t* img, int cc)  //Completed Columns
         free(array);
         
         //bild ohne änderungen printen
-        printf("\n");
-        printArray3(array2, 1, img->h);
+//         printf("\n");
+//         printArray3(array2, 1, img->h);
         
         //pixel rechts vom path nach links verschieben
         int width = img->w;
@@ -233,6 +233,13 @@ void image_write_to_file(image_t* img)
     fprintf(f, "P3\n");
     fprintf(f, "%i %i\n", img->w, img->h);
     fprintf(f, "255\n");
-    
+    for(int j=0; j<img->h; j++)
+    {
+        for(int i=0; i<img->w; i++)
+        {
+            fprintf(f,"%i ", img->data[i]);
+        }
+        fprintf(f,"\n");
+    }
     fclose(f);
 }

@@ -77,6 +77,86 @@ int* local_energy(image_t* img)
     return array;
 }
 
+// void accumulated_energy2(int* local_energy_array, int width, int arraysize)
+// {
+//     int spot = 0;
+//     int check = width;
+//     int check2 = 1;
+//     
+//     while(spot < arraysize)
+//     {
+//         if(check > 0)
+//         {
+//             check--;
+//         }
+//         else 
+//         {
+//             if(check2 % width != 1 && check2 % width == 0)
+//             {
+//                 check2++;
+//                 int place = local_energy_array[spot-width]; 
+//                 if(place <= local_energy_array[spot-width+1] && place <= local_energy_array[spot-width-1])
+//                 {
+//                     int add = local_energy_array[spot];
+//                     local_energy_array[spot] = add + place;
+//                 }
+//                 else
+//                 {   
+//                     int place = local_energy_array[spot-(width+1)]; 
+//                     if(place <= local_energy_array[spot-(width-1)])
+//                     {
+//                         int add = local_energy_array[spot];
+//                         local_energy_array[spot] = add + place;
+//                     }
+//                     else
+//                     {
+//                         int place = local_energy_array[spot-(width-1)];
+//                         int add = local_energy_array[spot];
+//                         local_energy_array[spot] = add + place;
+//                     }
+//                 }
+//             }
+//             else
+//             {
+//                 check2++;
+//                 if(check2 != width)
+//                 {
+//                     
+//                     int place = local_energy_array[spot-width];
+//                     if(place <= local_energy_array[spot-(width-1)])
+//                     {
+//                         int add = local_energy_array[spot];
+//                         local_energy_array[spot] = add + place;
+//                     }
+//                     else
+//                     {   
+//                         int place = local_energy_array[spot-(width-1)];
+//                         int add = local_energy_array[spot];
+//                         local_energy_array[spot] = add + place;
+//                     }
+//                 }
+//                 else
+//                 {
+//                     
+//                     int place = local_energy_array[spot-width];
+//                     if(place <= local_energy_array[spot-width+1])
+//                     {
+//                         int add = local_energy_array[spot];
+//                         local_energy_array[spot] = add + place;
+//                     }
+//                     else
+//                     {      
+//                         int place = local_energy_array[spot-(width+1)];
+//                         int add = local_energy_array[spot];
+//                         local_energy_array[spot] = add + place;
+//                     }
+//                 }
+//             }
+//         }
+//         spot++;
+//     }
+// }
+
 void accumulated_energy(int* local_energy_array, int width, int arraysize)
 {
     int spot = 0;
@@ -91,53 +171,30 @@ void accumulated_energy(int* local_energy_array, int width, int arraysize)
         }
         else 
         {
-            if(check2 % width != 1 && check2 % width == 0)
+            // rechter Rand also stehen nur oben und links zur Auswahl
+            if(check2 % width == 0)
             {
-                check2++;
+                //check2++;
                 int place = local_energy_array[spot-width]; 
-                if(place <= local_energy_array[spot-width+1] && place <= local_energy_array[spot-width-1])
+                if(place <= local_energy_array[spot-width-1])
                 {
                     int add = local_energy_array[spot];
                     local_energy_array[spot] = add + place;
                 }
                 else
                 {   
-                    int place = local_energy_array[spot-(width+1)]; 
-                    if(place <= local_energy_array[spot-(width-1)])
-                    {
-                        int add = local_energy_array[spot];
-                        local_energy_array[spot] = add + place;
-                    }
-                    else
-                    {
-                        int place = local_energy_array[spot-(width-1)];
-                        int add = local_energy_array[spot];
-                        local_energy_array[spot] = add + place;
-                    }
+                    int place = local_energy_array[spot-width-1];
+                    int add = local_energy_array[spot];
+                    local_energy_array[spot] = add + place;
                 }
             }
             else
             {
-                check2++;
-                if(check2 != width)
+                
+                //wir befinden uns hier im linken Rand es stehen nur oben und rechts zur auswahl
+                if(check2 % width == 1)
                 {
-                    
-                    int place = local_energy_array[spot-width];
-                    if(place <= local_energy_array[spot-(width-1)])
-                    {
-                        int add = local_energy_array[spot];
-                        local_energy_array[spot] = add + place;
-                    }
-                    else
-                    {   
-                        int place = local_energy_array[spot-(width-1)];
-                        int add = local_energy_array[spot];
-                        local_energy_array[spot] = add + place;
-                    }
-                }
-                else
-                {
-                    
+                    //check2++;
                     int place = local_energy_array[spot-width];
                     if(place <= local_energy_array[spot-width+1])
                     {
@@ -145,13 +202,40 @@ void accumulated_energy(int* local_energy_array, int width, int arraysize)
                         local_energy_array[spot] = add + place;
                     }
                     else
-                    {      
-                        int place = local_energy_array[spot-(width+1)];
+                    {   
+                        int place = local_energy_array[spot-width+1];
                         int add = local_energy_array[spot];
                         local_energy_array[spot] = add + place;
                     }
                 }
             }
+            //check2--;    
+            if(check2 % width != 1 && check2 % width != 0) //wenn wir in der Mitte sind
+            {
+                //check2++;
+                int place = local_energy_array[spot-width];
+                if(place <= local_energy_array[spot-width+1] && place <= local_energy_array[spot-width-1])
+                {
+                    int add = local_energy_array[spot];
+                    local_energy_array[spot] = add + place;
+                }
+                else
+                {      
+                    int place = local_energy_array[spot-width-1];
+                    if(place <= local_energy_array[spot-width+1])
+                    {
+                        int add = local_energy_array[spot];
+                        local_energy_array[spot] = add + place;
+                    }
+                    else
+                    {
+                        int place = local_energy_array[spot-width+1];
+                        int add = local_energy_array[spot];
+                        local_energy_array[spot] = add + place;
+                    }
+                }
+            }
+            check2++;
         }
         spot++;
     }
@@ -183,7 +267,7 @@ int* optimal_path(int* ae_array, int width, int height)
     //int check = 1;
     for(int i=1; i < height; i++)
     {
-        if(x % width == 0)
+        if(x == 0)
         {
             //check++;
             int above = ae_array[spot-width];
@@ -202,7 +286,7 @@ int* optimal_path(int* ae_array, int width, int height)
         }
         else 
         {
-            if(x % width == width-1)
+            if(x == width-1)
             {
                 //check++;
                 int above = ae_array[spot-width];
@@ -234,7 +318,7 @@ int* optimal_path(int* ae_array, int width, int height)
                     int left = ae_array[spot-(width+1)];
                     if(left <= ae_array[spot-(width-1)])
                     {
-                        spot = spot - width+1;
+                        spot = spot - (width+1);
                         x = spot % width;
                         path_array[i] = x;
                     }
