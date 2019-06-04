@@ -59,7 +59,7 @@ int main(int const argc, char** const argv)
     image_t* img = image_init(f);
     if(img == NULL)
     {
-        printf("Image file was broken.\n"); 
+        printf("Image file was broken.\n");
         return EXIT_FAILURE;
     }
     int width = img->w;
@@ -100,6 +100,7 @@ int main(int const argc, char** const argv)
                 if(optNum == 0 || optNum < -1 || optNum > width)
                 {
                     printf("The operator -n only accepts numerical parameters smaller than image width and larger than -2.");
+                    image_destroy(img);
                     return EXIT_FAILURE;
                 }
                 nCount = optNum;
@@ -110,6 +111,7 @@ int main(int const argc, char** const argv)
                 if(optopt == 'n' && sFlag == 0 && pFlag == 0)
                 {
                     printf("The operator -n requires a parameter");
+                    image_destroy(img);
                     return EXIT_FAILURE;
                 }
                 break;

@@ -4,6 +4,7 @@
 #include "image.h"
 #include "calculate.h"
 
+void image_destroy(image_t* img);
 void printArray3(int* array, int w, int h)
 {
     for(int i=0; i<w*h; )
@@ -61,6 +62,7 @@ image_t* image_init(FILE* f)
     {
         if(currentPixel < 0 || currentPixel > 255 || pixelCount >= w*h*3)
         {
+            image_destroy(img);
             return NULL;
         }
         img->data[pixelCount] = currentPixel;
@@ -69,6 +71,7 @@ image_t* image_init(FILE* f)
     
     if(pixelCount != w*h*3)
     {
+        image_destroy(img);
         return NULL;
     }
     
